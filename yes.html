@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Api Documntation</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+* {box-sizing: border-box}
+body {font-family: "Lato", sans-serif;}
+
+/* Style the tab */
+.tab {
+    float: left;
+    border: 1px solid #ffffff;
+    width: 15%;
+    height: 580px;
+    background-color: #154360;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    display: block;
+    background-color: inherit;
+    color: white;
+    padding: 22px 16px;
+    width: 100%;
+    border: 1px solid white;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 20px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #46b8da;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+    background-color: #46b8da ;
+}
+
+/* Style the tab content */
+.tabcontent {
+    float: left;
+    padding: 20px;
+    border: 1px solid #000000;
+    width: 85%;
+    border-left: none;
+    /*height: 500px;*/
+}
+
+.row{
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+</style>
+
+</head>
+<body>
+		<nav class="navbar" style="margin-bottom: 0px; background-color: #13232f">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#"  style="color: #ffffff;">D A S H B O A R D</a>
+				</div>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="active"><a href="#"  style="color: #ffffff;">Logout</li>
+				</ul>
+				</div>
+			</div>
+		</nav>
+
+
+
+
+
+		<div class="tab">
+  <button class="tablinks" onclick="details(event, 'home')" >Home</button>
+  <button class="tablinks" onclick="details(event, 'branchinfo')">Branch Info</button>
+  <button class="tablinks" onclick="details(event, 'branch')" id="defaultOpen">Branch</button>
+  <button class="tablinks" onclick="details(event, 'createbranch')">Create Branch</button>
+
+	</div>
+
+
+	<div id="home" class="tabcontent" >
+    <div class="row" style="margin-top: 10px; ">
+    	<div class="col-md-4 col-md-offset-1" style="border: 2px solid black; font-size: 25px; text-align: center; padding: 10px 0px; background-color: #154360; color: #ffffff; ">
+        Total No. of Branches <br>
+        <%= users.length %>
+      </div>
+			<div class="col-md-4 col-md-offset-1" style="border: 2px solid black; font-size: 25px; text-align: center; padding: 10px 0px; background-color: #154360; color: #ffffff; ">
+        Total No. of Branches Online <br>
+        <%= onlinebranch.length %>
+      </div>
+			<div class="col-md-4 col-md-offset-1" style="border: 2px solid black; font-size: 25px; text-align: center; padding: 10px 0px; background-color: #154360; color: #ffffff; ">
+        Total No. of Branches Ofline <br>
+        <%= oflinebranch.length %>
+      </div>
+      <!-- <div class="col-md-4 col-md-offset-1" style="border: 2px solid black; font-size: 25px; text-align: center; padding: 10px 0px; background-color: #154360; color: #ffffff; ">
+        API hits per month <br>
+        10000
+      </div> -->
+
+
+      </div>
+
+      <div class="row">
+      <div class="col-md-4 col-md-offset-1" style="border: 2px solid black; font-size: 25px; text-align: center; padding: 10px 0px; background-color: #154360; color: #ffffff; ">
+        API hits per day <br>
+        <%= days_count %>
+      </div>
+      <div class="col-md-4 col-md-offset-1" style="border: 2px solid black; font-size: 25px; text-align: center; padding: 10px 0px; background-color: #154360; color: #ffffff; ">
+        API hits Yesterday <br>
+        <%= yesterdays_count %>
+      </div>
+
+      </div>
+
+      <div class="row">
+       <div class="col-md-4 col-md-offset-1" style="border: 2px solid black; font-size: 25px; text-align: center; padding: 10px 0px; background-color: #154360; color: #ffffff; ">
+        Forms Filled <br>
+        <%= formsfilled.length %>
+      </div>
+
+      </div>
+
+       <div class="row" style="border-bottom: 2px solid black; border-spacing: 0px;">
+
+       </div>
+
+      <div class="row">
+      <div class="col-md-4 col-md-offset-1" style="border: 2px solid black; font-size: 20px; color: #000000; text-align: center; padding: 10px 0px;" >
+        Graph
+      </div>
+      <div class="col-md-4 col-md-offset-1" style="border: 2px solid black; font-size: 20px; color: #000000; text-align: center; padding: 10px 0px;" >
+        Graph
+      </div>
+      </div>
+
+      <div class="row">
+      <div class="col-md-4 col-md-offset-1" style="border: 2px solid black; font-size: 20px; color: #000000; text-align: center; padding: 10px 0px;" >
+        Graph
+      </div>
+      <div class="col-md-4 col-md-offset-1" style="border: 2px solid black; font-size: 20px; color: #000000; text-align: center; padding: 10px 0px;" >
+        Graph
+      </div>
+      </div>
+
+	</div>
+
+	<div id="branchinfo" class="tabcontent">
+   <table class="table table-bordered" style="color: white; font-size: 20px; background-color: #154360;">
+    <thead>
+      <tr >
+        <th>Sr. No.</th>
+        <th>Branch Name</th>
+        <th>Credentials</th>
+      </tr>
+    </thead>
+
+    <tbody>
+			<%for (var i=0; i< users.length;i++){ %>
+      <tr>
+        <td><%= i %></td>
+        <td><%= users[i].Branch_name %></td>
+        <td>User-Email: <%= users[i].email</td>
+      </tr>
+			<% } %>
+
+      <!-- <tr>
+        <td>2</td>
+        <td>Profectus Ahmedabad</td>
+        <td>UserId: profectusahm<br>Pwd: ahmedabad</td>
+      </tr>
+
+      <tr>
+        <td>3</td>
+        <td>Profectus Chennai</td>
+        <td>UserId: profectuschenn<br>Pwd: chennai</td>
+      </tr>
+
+      <tr>
+        <td>4</td>
+        <td>Profectus Delhi</td>
+        <td>UserId: profectusdel<br>Pwd: delhi</td>
+      </tr>
+
+      <tr>
+        <td>5</td>
+        <td>Profectus Pune</td>
+        <td>UserId: profectuspune<br>Pwd: pune</td>
+      </tr> -->
+    </tbody>
+
+   </table>
+	</div>
+
+	<div id="branch" class="tabcontent">
+
+      <center><label for="branch" style="color: black;"><h1>Select Branch:</h1></label><br>
+      <select style="color: black; width: 500px; font-size: 17px;" class="form-control" id="selectUser">
+				<% if (users.length > 0) { %>
+						<% users.forEach(function(user){ %>
+								<option value="<%= user._id %>">
+										<%= user.Branch_name %>
+								</option>
+								<% }); %>
+										<% } else { %>
+												<option value="">No users</option>
+												<% } %>
+</select>
+<br><br>
+<div class="form-group">
+		<div class="col-md-3 col-md-offset-2">
+				<button type="submit" id="getReportbtn" class="btn btn-lg btn-primary">Get count</button>
+		</div>
+
+	</div>
+    </center>
+	</div>
+	<div class="row">
+			<div class="col-md-12">
+					<div id="historyReport"></div>
+			</div>
+	</div>
+
+
+	 <div id="createbranch" class="tabcontent" style="background-color: #154360; height: 610px;">
+    <center><h1>Create User</h1></center>
+    <br><br>
+
+ 	 <center><form style="max-width: 600px; border: 2px solid white; padding: 20px;">
+      <div class="form-group" style="font-size: 20px;">
+        <label for="Branchname" >Enter Branch Name:</label>
+        <input type="text" class="form-control" id="branch" name="branch">
+     </div>
+
+     <div class="form-group" style="font-size: 20px;">
+        <label for="UserId">Enter UserId:</label>
+        <input type="text" class="form-control" id="userid" name="userid">
+     </div>
+
+     <div class="form-group">
+        <label for="password" style="font-size: 20px;">Enter Password:</label>
+        <input type="password" class="form-control" id="password" name="password">
+     </div>
+
+     <button type="submit" class="btn btn-lg" style="background-color: #46b8da;">Submit</button>
+   </form>
+ </center>
+	</div>
+
+	<script>
+function details(evt, products) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(products).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+<script src="/js/jquery.noty.packaged.min.js"></script>
+<script type="text/javascript">
+		function generate(type, text) {
+				var n = noty({
+						text: text,
+						type: type,
+						dismissQueue: true,
+						layout: 'topRight',
+						closeWith: ['click'],
+						theme: 'relax',
+						maxVisible: 10,
+						animation: {
+								open: 'animated bounceInRight',
+								close: 'animated bounceOutRight',
+								easing: 'swing',
+								speed: 500
+						}
+				});
+		}
+		$(document).ready(function () {
+				$('#getReportbtn').on('click', function (e) {
+						e.preventDefault();
+						$.ajax({
+								url: '/admin/get-users-report',
+								data: {
+										_id: $("#selectUser").val()
+								},
+								// console.log(data)
+								error: function (jqXHR, exception) {
+										var errorObj = JSON.parse(jqXHR.responseText);
+										if (!errorObj.process) {
+												$("#pan1").hide();
+										}
+										var messageDiv =
+												'<div class="activity-item"><div class="activity">' +
+												errorObj.message + '</div> </div>';
+										generate("error", messageDiv);
+								},
+								dataType: 'json',
+								success: function (data) {
+										var table = '';
+										if (data.result !== null) {
+												table +=
+														"<table id='example' class='table table-striped table-bordered'>";
+												table +=
+														"<thead><tr><th>Name</th><th>Position</th></tr></thead><tbody>";
+												Object.keys(data.result).forEach(function (key) {
+														table += "<tr><td>" + key + "</td><td>" + data.result[
+																key] + "</td></tr>";
+												});
+												table += "</tbody></table>";
+										} else {
+												table += "<p>No History</p>";
+										}
+
+										$("#historyReport").html(table);
+								},
+								type: 'GET'
+						});
+				});
+		});
+</script>
+
+</body>
+</html>

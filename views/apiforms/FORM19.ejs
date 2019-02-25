@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Form</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+<form action="" id="fdalic" method="post">
+  <center><img src="images/ajax-loader.gif" width="100px;" height="100px;" id="loading19" style="display: none;"></center>
+<div class="table-responsive">
+
+
+    <h3>FDA License Authentication</h3>
+    <table class="table table-bordered table-striped table-highlight">
+      <thead>
+        <tr>
+          <th> Licence No. </th>
+          <th>State</th>
+
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td><input type="number" class="form-control" name="fda" /></td>
+          <td><input type="text" class="form-control" name="fdastate" /></td>
+
+        </tr>
+      </tbody>
+    </table>
+
+
+
+  </div>
+
+  <center><button type="submit"  class="btn" name="Submit" style="margin-bottom: 20px;">Submit Form</button></center>
+
+</form>
+<div class = "new_19" style= "display:none">Your Details Have been succesfully submitted</div>
+</div>
+
+
+</body>
+<script src="./js/jquery.noty.packaged.min.js"></script>
+<script>
+	function generate(type, text) {
+		var n =  noty({
+			text: text,
+			type: type,
+			dismissQueue: true,
+			layout: 'topRight',
+			closeWith: ['click'],
+			theme: 'relax',
+			maxVisible: 10,
+			animation: {
+				open: 'animated bounceInRight',
+				close: 'animated bounceOutRight',
+				easing: 'swing',
+				speed: 500
+			}
+		});
+	}
+	$("#fdalic").on('submit', function (e) {
+		e.preventDefault();
+		$('#loading19').show();
+		$.ajax({
+			type: "POST",
+			url: '/index19',
+			data: $('form').serialize(),
+			success: function (data) {
+				console.log(data)
+				var messageDiv =
+					'<div class="activity-item"> <i class="fa fa-check text-success"></i><div class="activity">Success</div> </div>';
+				generate("success", messageDiv);
+				$("#fdalic").hide();
+				$(".new_19").show();
+				var hidden = 0;
+				const forms = $('form')
+				forms.each(function (i, element) {
+					if ($(element).is(':hidden')) {
+						hidden = hidden + 1;
+					}
+				});
+
+				if (forms.length === hidden) {
+					$('#viewDashboard-btn').removeAttr('disabled');
+				}
+			},
+			error: function (jqXHR, exception) {
+				var errorObj = JSON.parse(jqXHR.responseText);
+				if (!errorObj.process) {
+					$("#fdalic").hide();
+				}
+				var messageDiv = '<div class="activity-item"><div class="activity">' +
+					errorObj.message + '</div> </div>';
+				generate("error", messageDiv);
+			},
+			complete: function () {
+				$('#loading19').hide();
+			}
+		});
+	});
+</script>
+</html>

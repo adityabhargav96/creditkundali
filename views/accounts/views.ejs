@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+		<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+	<title>Dashboard</title>
+	<style type="text/css">
+
+		body{
+			font-family: 'Poppins', sans-serif;
+			background-color:#F5F5F5;
+			/*background-image: url('1.jpg');
+			background-repeat:no-repeat;
+			backface-visibility:*/
+		}
+		table{
+			padding-top:50px;
+			table-layout: fixed;
+			position: relative;
+			margin-top:50px;
+			width:100%;
+
+		}
+		td {
+		  width:20% ;
+		}
+		table,th,td{
+			border: 1px solid black;
+			width:92%;
+			margin-top: 50px;
+			margin-left:4%;
+		}
+		th,td{
+			padding-top:15px;
+			padding-bottom:15px;
+			padding-left:50px;
+			color: #2874A6;
+
+		}
+
+			.col-sm-6{
+				line-height:2;
+				color:#2874A6;
+
+			}
+			hr{
+				visibility: hidden;
+			}
+			.posh {
+		font-size:17px;
+
+	}
+		</style>
+</head>
+<body>
+
+	<header class="theme-main-header" style="background-color: rgba(19, 35, 47, 0.9);">
+        <div class="container">
+          <a href="/" class="logo float-left tran4s"><h3 style="color: white;margin-top:5px;">Xverify</h3></a>
+
+
+          <!-- ========================= Theme Feature Page Menu ======================= -->
+          <nav class="navbar float-right theme-main-menu one-page-menu">
+             <!-- Brand and toggle get grouped for better mobile display -->
+             <div class="navbar-header">
+               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+                 <span class="sr-only">Toggle navigation</span>
+                 Menu
+                 <i class="fa fa-bars" aria-hidden="true"></i>
+               </button>
+             </div>
+             <!-- Collect the nav links, forms, and other content for toggling -->
+             <div class="collapse navbar-collapse" id="navbar-collapse-1">
+               <ul class="nav navbar-nav">
+
+
+            <% if (!user) { %>
+
+     <li><a class="dropdown-toggle" data-toggle="dropdown" href="#" style="background-color: #000000;">Login</a>
+        <ul class="dropdown-menu" style="background-color: #000000;">
+          <li><a href="/login">Login</a></li>
+        </ul>
+      </li>
+
+     <% } else { %>
+			 <!-- <div class="container"> -->
+
+			         <!-- </div> -->
+			<!-- <li>	<input class="btn btn-primary btn-lg" id="printpagebutton" type="button" value="Save Report" onclick="printpage()"/></li> -->
+			<li><a onclick='window.print()' id="printreport" href="#">Save report</a></li>
+			<li><a href="/form-page">Fill another details</a></li>
+
+          <!-- <li><a href="/profile">Profile</a></li> -->
+          <li><a href="/logout" style="padding:10px;">Logout</a></li>
+        
+			<!-- <script  type="text/javascript">
+				function printpage(){
+					window.print();
+				}
+			</script> -->
+			      <% } %>
+
+
+<!-- <% if (user) { %>
+<li><a href="/cart" style="padding: 0;"> <button class="btn btn-primary" style=" background-color: #d73e4d;" >Go to Cart <span class = "glyphicon glyphicon-shopping-cart" style="color: #ffffff;"></span><span class="badge"><%= cart %></span></button></a></li>
+
+  <% } else { %>
+<li> <a href="/cart" class = "glyphicon glyphicon-shopping-cart"><span class="badge">0</span></a></li>
+
+<% } %> -->
+               </ul>
+             </div><!-- /.navbar-collapse -->
+          </nav> <!-- /.theme-feature-menu -->
+        </div>
+      </header>
+			<br>
+			<br>
+			<br>
+	<h2 style="text-align: center;color: #154360;">
+			<b>VERIFICATION REPORT</b>
+		</h2>
+	<thead>
+	<div class="container-fluid" style="border:2px solid black;margin-top:20px;border-radius:20px;margin-left:50px;margin-right: 50px;">
+
+		<div class="col-sm-6" style="font-size:20px;margin-top:60px;">
+			<span><b>Report Made By</b> - <%= user.Branch_name %></span><br>
+			<span><b>Customer Name</b> - <%= first_name %> <%= last_name %> </span><br>
+
+		</div>
+
+		<!-- <div class="col-sm-4" style="text-align: center;">
+			<h2><b>VERIFICATION REPORT</b></h2>
+		</div> -->
+
+		<div class="col-sm-6" style="font-size:20px;margin-top:60px;">
+			<!-- <span><b>Client Name</b> - </span><br> -->
+			<span><b>Date Of Report</b> - <sapn id="ddate"></span></span><br>
+				<span><b>Customer type</b> - KYC Commercial</span><br>
+
+
+			<!-- <span style="font-size:30px;"><b>X&nbsp;E&nbsp;R&nbsp;I&nbsp;F&nbsp;Y</b></span> -->
+		</div>
+
+	</div>
+</thead>
+
+
+	<!-- <center><a href="/"><button class="btn btn-primary btn-lg" style="margin-bottom:20px"> Go To Home </button></a></center> -->
+	<table cellpadding="2px" style="margin-top:20px;border:1px solid black;  ">
+		<tr>
+			<th>Title</th>
+			<th>Input</th>
+			<th>Output</th>
+		</tr>
+		<%for (var i=0; i< foundCart.items.length;i++){ %>
+ 			<%	if( foundCart.items[i].title  === "PAN CARD VERIFICATION") { %>
+    <tr>
+			<td><%= foundCart.items[i].title %></td>
+			<td><b class="posh">Pan Card No :</b><%= pan_no %></td>
+			<td><b class="posh">PAN Holder Name:</b><%= pan_name%></td>
+		</tr>
+		 <% } else if( foundCart.items[i].title  === "DRIVING LICENSE AUTHENTICATION") { %>
+			 <tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">Dl Number : </b><%= dl_no %><br>
+					<b class="posh">DOB : </b><%= dobin %></td>
+	 			<td><b class="posh">Card Holder Name :</b><%= driverName %><br>
+					<b class="posh">Issue Date :</b><%= driver_issuedate %><br>
+					<b class="posh">DOB on Card :</b><%= driver_dob_out %><br>
+					<b class="posh">Blood Group :</b><%= driver_blood_group %><br>
+					<b class="posh">Father/Husband :</b><%= driver_father %><br>
+					<b class="posh">Address :</b><%= driver_address %><br>
+					<%for (var x=0; x< driver_cov.length;x++){ %>
+				<b class="posh">Cov Details Issue Date:</b><%= driver_cov[x].issue_date %><br>
+				<b class="posh">Cov Details :</b><%= driver_cov[x].cov %><br>
+				<% } %>
+					<b class="posh">Validity Non-Transport :</b><%= driver_validity %><br>
+					<b class="posh">Validity Transport :</b><%= validiti_driver %></td>
+	 		</tr>
+			<% } else if( foundCart.items[i].title  === "EMPLOYER LOOKUP") { %>
+			<tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">UAN: </b><%= uan %><br>
+	 			</td>
+	 			<td>
+					<%for (var z=0; z < lookup.length;z++){ %>
+					<b class="posh">Membership Id: </b><%= lookup[z].membershipId %><br>
+					<b class="posh">Settelment: </b><%= lookup[z].settelment %><br>
+					<b class="posh">Est Name : </b><%= lookup[z].estName %>
+					<% } %>
+			</td>
+	 		</tr>
+			<% } else if( foundCart.items[i].title  === "VOTER IDENTIFICATION") { %>
+				<tr>
+ 	 			<td><b class="posh">Product :</b><%= foundCart.items[i].title %></td>
+ 	 			<td><b class="posh">Epic No :</b><%= epicno %></td>
+ 	 			<td><b class="posh">Epic No :</b><%= epic_no %><br>
+ 					<b class="posh">Card Holder Name :</b><%= voter_name %><br>
+ 					<b class="posh">rln name v1 :</b><%= rln_name_v1 %><br>
+ 					<b class="posh">rln name v2 :</b><%= rln_name_v2 %><br>
+ 					<b class="posh">rln name v3 :</b><%= rln_name_v3 %><br>
+ 					<b class="posh">name v1 :</b><%= name_v1 %><br>
+ 					<b class="posh">name v2 :</b><%= name_v2 %><br>
+ 					<b class="posh">name v3 :</b><%= name_v3 %><br>
+ 					<b class="posh">rln name :</b><%= rln_name %><br>
+					<b class="posh">rln type :</b><%= rln_type %><br>
+					<b class="posh">gender :</b><%= voter_gender %><br>
+					<b class="posh">age  :</b><%= voter_age %><br>
+					<b class="posh">DOB :</b><%= voter_dob %><br>
+					<b class="posh">House No :</b><%= house_no %><br>
+					<b class="posh">Part Name :</b><%= part_name %><br>
+					<b class="posh">Pc Name :</b><%= pc_name %><br>
+					<b class="posh">Ac Name :</b><%= voter_ac_name %><br>
+					<b class="posh">District :</b><%= voter_district %><br>
+					<b class="posh">State :</b><%= voter_state %><br>
+					<b class="posh">St code :</b><%= st_code %><br>
+					<b class="posh">Part No :</b><%= part_no %><br>
+					<b class="posh">Ps lat long :</b><%= ps_lat_long %><br>
+					<b class="posh">Ps Name :</b><%= ps_name %><br>
+					<b class="posh">Section no :</b><%= section_no %><br>
+					<b class="posh">Sl No inpart:</b><%= slno_inpart %><br>
+					<b class="posh">Id :</b><%= voter_id %><br>
+					<b class="posh">Last updater :</b><%= last_update %></td>
+ 	 		</tr>
+			<% } else if( foundCart.items[i].title  === "NREGA") { %>
+ 			 <tr>
+ 	 			<td><b class="posh">Product :</b><%= foundCart.items[i].title %></td>
+ 	 			<td><b class="posh">JOB Id: </b><%= nrega_jobId %></td>
+ 	 			<td>
+ 					<b class="posh">FamilyId1 :</b><%= familyId1_nrega %><br>
+ 					<b class="posh">Address :</b><%= address_nrega %><br>
+ 					<b class="posh">NameOfFatherOrHusband :</b><%= nameOfFatherOrHusband_nrega %><br>
+ 					<b class="posh">VoterId :</b><%= voterId_nrega %><br>
+ 					<b class="posh">Village :</b><%= village_nrega %><br>
+ 					<b class="posh">BplFamilyId :</b><%= bplFamilyId_nrega %><br>
+					<b class="posh">Districts :</b><%= district_nrega %><br>
+					<b class="posh">category :</b><%= category_nrega %><br>
+					<b class="posh">FamilyId :</b><%= familyId_nrega %><br>
+						<%for (var x=0; x< incomeDetail_nrega.length;x++){ %>
+ 					<b class="posh">Year <%= x %> :</b><%= incomeDetail_nrega[x].year %><br>
+					<b class="posh">Income <%= x %>:</b><%= incomeDetail_nrega[x].income %><br>
+					<% } %>
+					<%for (var y=0; y< applicantDetail_nrega.length;y++){ %>
+				<b class="posh">Name <%= y %>:</b><%= applicantDetail_nrega[y].name %><br>
+				<b class="posh">Gender <%= y %>:</b><%= applicantDetail_nrega[y].gender %><br>
+				<b class="posh">Bankor Post Office <%= y %>:</b><%= applicantDetail_nrega[y].bankorpostoffice %><br>
+				<b class="posh">Age <%= y %>:</b><%= applicantDetail_nrega[y].age %><br>
+				<b class="posh">Account No <%= y %>:</b><%= applicantDetail_nrega[y].accountNo %><br>
+				<b class="posh">Adhaar No <%= y %>:</b><%= applicantDetail_nrega[y].adhaarNo %><br>
+				<% } %>
+ 					<b class="posh">NameOfHead :</b><%= nameOfHead_nrega %><br>
+					<b class="posh">Job Card No :</b><%= jobcardno_nrega %><br>
+					<b class="posh">Date Of Registration :</b><%= dateOfRegistration_nrega %><br>
+					<b class="posh">Panchayat :</b><%= panchayat_nrega %><br>
+					<b class="posh">Block :</b><%= block_nrega %><br></td>
+ 	 		</tr>
+			<% } else if( foundCart.items[i].title  === "PASSPORT AUTHENTICATION") { %>
+ 			 <tr>
+ 	 			<td><%= foundCart.items[i].title %></td>
+ 	 			<td><b class="posh">Passport No : </b><%= passport_passno %><br>
+					<b class="posh">Your Name : </b><%= pass_passname %><br>
+					<b class="posh">Your Last Name : </b><%= passport_surname %><br>
+					<b class="posh">DOB : </b><%= pass_bday %><br>
+					<b class="posh">DOE : </b><%= pass_doe %><br>
+					<b class="posh">Gender : </b><%= pass_gender %><br>
+					<b class="posh">Type : </b><%= pass_passporttype %><br>
+	 				<b class="posh">Country : </b><%= pass_countrycode %><br></td>
+ 	 			<td>
+ 					<b class="posh">String 1 : </b><%= pass_string1 %><br>
+ 					<b class="posh">String 2 : </b><%= pass_string2 %><br></td>
+ 	 		</tr>
+			<% } else if( foundCart.items[i].title  === "TAN AUTHENTICATION") { %>
+ 			 <tr>
+ 	 			<td><%= foundCart.items[i].title %></td>
+ 	 			<td><b class="posh">Tan No : </b><%= tanNo %><br></td>
+ 	 			<td>
+ 					<b class="posh">Name : </b><%= tanAuthname %><br></td>
+ 	 		</tr>
+			<% } else if( foundCart.items[i].title  === "MCA SIGNATORIES") { %>
+ 			 <tr>
+ 	 			<td><%= foundCart.items[i].title %></td>
+ 	 			<td><b class="posh">Tan No : </b><%= mca_cin %><br></td>
+ 	 			<td>
+				<%for (var y=0; y< mca_result.length;y++){ %>
+				<b class="posh">Date Of Appointment :</b><%= mca_result[y].date_of_appointment %><br>
+				<b class="posh">Designation :</b><%= mca_result[y].designation %><br>
+				<b class="posh">Dsc Expiry Date :</b><%= mca_result[y].dsc_expiry_date %><br>
+				<b class="posh">Address :</b><%= mca_result[y].address %><br>
+				<b class="posh">DIN/DPIN/PAN :</b><%= mca_result[y]['DIN/DPIN/PAN'] %><br>
+				<b class="posh">Full name :</b><%= mca_result[y].full_name %><br>
+				<b class="posh">wheather Dsc Registered :</b><%= mca_result[y].wheather_dsc_registered %><br><br>
+				<% } %>
+ 	 		</tr>
+			<% } else if( foundCart.items[i].title  === "COMPANY SEARCH BY NAME") { %>
+ 			 <tr>
+ 	 			<td><%= foundCart.items[i].title %></td>
+ 	 			<td><b class="posh">Company Name : </b><%= company %><br></td>
+ 	 			<td>
+					<%for (var y=0; y< mock.length;y++){ %>
+				<b class="posh">Score :</b><%= mock[0].score %><br>
+				<b class="posh">Cin :</b><%= mock[y].cin %><br>
+				<b class="posh">Company Name :</b><%= mock[y].comapany_name %><br>
+				<% } %>
+ 	 		</tr>
+			<% } else if( foundCart.items[i].title  === "IMPORT EXPORT CODE") { %>
+ 			 <tr>
+ 	 			<td><%= foundCart.items[i].title %></td>
+ 	 			<td><b class="posh">IEC No : </b><%= iecauth_iec %><br></td>
+ 	 			<td>
+ 					<b class="posh">Name : </b><%= iecauth_name %><br>
+ 					<b class="posh">Status : </b><%= iecauth_del_status %><br>
+					<b class="posh">Address : </b><%= iecauth_address %><br>
+					<b class="posh">No_of_branches : </b><%= iecauth_nob %><br>
+					<b class="posh">IECStatus : </b><%=  iecauth_iecstatus %><br>
+					<b class="posh">PAN : </b><%= iecauth_pan%><br></td>
+ 	 		</tr>
+			<% } else if( foundCart.items[i].title  === "WEB DOMAIN AUTHENTICATION") { %>
+			 <tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">Web Domain: </b><%= inputdomain %>
+				</td>
+				<td>
+					<%for (var y=0; y< domain.length;y++){ %>
+				<b class="posh">Domain Name :</b><%= domain[y].name %><br>
+				<% } %>
+				<b class="posh">Update Date :</b><%= update_date %><br>
+				<b class="posh">Expiration Date :</b><%= expiration_date %><br>
+				<b class="posh">Creation Date :</b><%= creation_date %><br>
+				<b class="posh">Admin City :</b><%= admin_city %><br>
+				<b class="posh">Admin fax :</b><%= admin_fax %><br>
+				<b class="posh">Admin name :</b><%= admin_name  %><br>
+				<b class="posh">Admin country :</b><%= admin_country  %><br>
+				<b class="posh">Admin stateprovince :</b><%= admin_stateprovince %><br>
+				<b class="posh">Admin phone :</b><%= admin_phone  %><br>
+				<b class="posh">Admin street :</b><%= admin_street %><br>
+				<b class="posh">Admin organization :</b><%= admin_organization  %><br>
+				<b class="posh">Admin postal :</b><%= admin_postal %><br>
+				<b class="posh">Admin email :</b><%= admin_email  %><br>
+				<b class="posh">tech City :</b><%= tech_city  %><br>
+				<b class="posh">tech fax :</b><%= tech_fax  %><br>
+				<b class="posh">tech name :</b><%= tech_name  %><br>
+				<b class="posh">tech country :</b><%= tech_country  %><br>
+				<b class="posh">tech stateprovince :</b><%= tech_stateprovince  %><br>
+				<b class="posh">tech phone :</b><%= tech_phone  %><br>
+				<b class="posh">tech street :</b><%= tech_street  %><br>
+				<b class="posh">tech organization :</b><%= tech_organization  %><br>
+				<b class="posh">tech postal :</b><%= tech_postal  %><br>
+				<b class="posh">tech email :</b><%= tech_email  %><br>
+				<b class="posh">registry expiry :</b><%= registry_expiry %><br>
+				<b class="posh">registry  id :</b><%= registry_id %><br>
+				<b class="posh">registrar phone :</b><%= registrar_phone %><br>
+				<b class="posh">registrar email :</b><%= registrar_email %><br>
+				<b class="posh">server name :</b><%= nameserver_name %><br>
+				<b class="posh">registrant City :</b><%= registrant_city %><br>
+				<b class="posh">registrant name :</b><%= registrant_name %><br>
+				<b class="posh">registrant country :</b><%= registrant_country %><br>
+				<b class="posh">registrant stateprovince :</b><%= registrant_stateprovince %><br>
+				<b class="posh">registrant phone :</b><%= registrant_phone %><br>
+				<b class="posh">registrant street :</b><%= registrant_street %><br>
+				<b class="posh">registrant organization :</b><%= registrant_organization %><br>
+				<b class="posh">registrant postal :</b><%= registrant_postal %><br>
+				<b class="posh">registrant email :</b><%= registrant_email %><br>
+				</td>
+	 		</tr>
+			<% } else if( foundCart.items[i].title  === "IEC DETAILED PROFILE") { %>
+			 <tr>
+				<td><%= foundCart.items[i].title %></td>
+				<td><b class="posh">IEC Detail NO : </b><%= iedc_ie_code %></td>
+				<td>
+					<b class="posh">File Number :</b><%= iecd_file_number %><br>
+					<b class="posh">Bin Pan Extension :</b><%= iecd_bin_pan_extension %><br>
+					<b class="posh">Ie Code :</b><%= iedc_ie_code %><br>
+					<b class="posh">Iec Status :</b><%= iecd_iec_status %><br>
+					<b class="posh">No Of Branches :</b><%= iecd_nob %><br>
+					<%for (var x=0; x< iecd_regdetails.length;x++){ %>
+					<b class="posh">Reg Date <%=x+1%>:</b><%= iecd_regdetails[x].reg_date %><br>
+					<b class="posh">Reg No <%=x+1%>:</b><%= iecd_regdetails[x].reg_no %><br>
+					<b class="posh">Reg place <%=x+1%>:</b><%= iecd_regdetails[x].reg_place %><br>
+					<b class="posh">Reg Type <%=x+1%>:</b><%= iecd_regdetails[x].reg_type %><br>
+					<% } %>
+					<b class="posh">Nature Of Concern :</b><%= iecd_nature_of_concern %><br>
+					<b class="posh">Del Status :</b><%= iecd_del_status %><br>
+					<%for (var y=0; y< iecd_directors.length;y++){ %>
+					<b class="posh">Contact No <%=y+1%>: </b><%= iecd_directors[y].contact_no %><br>
+					<b class="posh">Dir Name <%=y+1%> : </b><%= iecd_directors[y].dir_name %><br>
+					<b class="posh">Father Name <%=y+1%> : </b><%= iecd_directors[y].father_name %><br>
+					<b class="posh">Address <%=y+1%> : </b><%= iecd_directors[y].address %><br>
+					<% } %>
+					<b class="posh">Party Name and Address :</b><%= iecd_party_name_and_address %><br>
+					<b class="posh">Pan :</b><%= iecd_pan %><br>
+					<b class="posh">Pan Issued By :</b><%= iecd_pan_issued_by %><br>
+					<b class="posh">Date of Establishment :</b><%= iecd_date_of_establishment %><br>
+					<b class="posh">Address :</b><%= iecd_address %><br>
+					<b class="posh">Allotment Date :</b><%= iecd_iec_allotment_date %><br>
+					<%for (var y=0; y< iecd_branches.length;y++){ %>
+					<b class="posh">Branch Code <%=y+1%> :</b><%= iecd_branches[y].branch_code %><br>
+					<b class="posh">Address <%=y+1%>:</b><%= iecd_branches[y].address %><br>
+					<% } %>
+					<b class="posh">Name :</b><%= iecd_name %><br>
+					<b class="posh">E mail :</b><%= iecd_e_mail %><br>
+					<b class="posh">File Date :</b><%= iecd_file_date %><br>
+					<b class="posh">Phone No :</b><%= iecd_phone_no %><br>
+					<b class="posh">Exporter type :</b><%= iecd_exporter_type %><br>
+					<b class="posh">Pan Issue Date :</b><%= iecd_pan_issue_date %><br>
+					<b class="posh">Bank Name :</b><%= iecd_bank_details_bank_name %><br>
+					<b class="posh">Account Type :</b><%= iecd_bank_details_account_type %><br>
+					<b class="posh">Account Number :</b><%= iecd_bank_details_account_number %><br>
+
+					<%for (var y=0; y< iecd_rmcm.length;y++){ %>
+					<b class="posh">RCMC Type <%=y+1%> : </b><%= iecd_rmcm[y].rcmc_type %><br>
+					<b class="posh">RCMC No <%=y+1%> : </b><%= iecd_rmcm[y].rcmc_no %><br>
+					<b class="posh">RCMC Issued By <%=y+1%> : </b><%= iecd_rmcm[y].rcmc_issued_by %><br>
+					<b class="posh">RCMC Issue Date <%=y+1%> : </b><%= iecd_rmcm[y].rcmc_issue_date %><br>
+					<b class="posh">RCMC Exp Date <%=y+1%> : </b><%= iecd_rmcm[y].rcmc_exp_date %><br>
+					<% } %>
+				</td>
+			</tr>
+				<% } else if( foundCart.items[i].title  === "COMPANY CIN") { %>
+	 			 <tr>
+	 	 			<td><%= foundCart.items[i].title %></td>
+	 	 			<td><b class="posh">Company Name : </b><%= company %><br></td>
+	 	 			<td>
+						<%for (var y=0; y< cin.length;y++){ %>
+							<b class="posh">Company ID :</b><%= cin[y].companyID %><br>
+						<b class="posh">Company Name :</b><%= cin[y].companyName %><br>
+						<% } %>
+					</td>
+				</tr>
+				<% } else if( foundCart.items[i].title  === "COMPANY AND LLP IDENTIFICATION") { %>
+					<tr>
+	 	 			<td><%= foundCart.items[i].title %></td>
+	 	 			<td><b class="posh">Cin No :</b><%= cinno_llpin %></td>
+	 	 			<td><b class="posh">Listed or Not :</b><%= Whether_Listed_or_not_llpin %><br>
+	 					<b class="posh">ROC Code :</b><%= ROC_Code_llpin %><br>
+	 					<b class="posh">Company SubCategory :</b><%= Company_SubCategory_llpin %><br>
+	 					<b class="posh">Email Id :</b><%= Email_Id_llpin %><br>
+	 					<b class="posh">Suspended at Stock Exchange :</b><%= Suspended_at_stock_exchange_llpin %><br>
+	 					<b class="posh">Alternative Address :</b><%= alternative_address_llpin %><br>
+	 					<b class="posh">Date of Balance Sheet :</b><%= Date_of_Balance_Sheet_llpin %><br>
+	 					<b class="posh">cin :</b><%= cin_llpin %><br>
+						<b class="posh">Authorised Capital :</b><%= Authorised_Capital_llpin %><br>
+						<b class="posh">Company Category :</b><%= Company_Category_llpin %><br>
+						<b class="posh">Date of last AGM  :</b><%= Date_of_last_AGM_llpin %><br>
+						<b class="posh">Company Name :</b><%= Company_Name_llpin %><br>
+						<b class="posh">Paid up Capital :</b><%= Paid_up_Capital_llpin %><br>
+						<b class="posh">Registered Address :</b><%= Registered_Address_llpin %><br>
+						<b class="posh">Number of Members :</b><%= Number_of_Members_llpin %><br>
+						<b class="posh">Class of Company :</b><%= Class_of_Company_llpin %><br>
+						<b class="posh">Registration Number :</b><%= Registration_Number_llpin %><br>
+						<b class="posh">Date of Incorporation :</b><%= Date_of_Incorporation_llpin %><br>
+						</td>
+	 	 		</tr>
+				<% } else if( foundCart.items[i].title  === "UDYOG ADHAAR") { %>
+					<tr>
+	 	 			<td><b class="posh">Product :</b><%= foundCart.items[i].title %></td>
+	 	 			<td><b class="posh">Uan No :</b><%= udyoug_uanno %><br>
+					<b class="posh">Adhaar No :</b><%= udyog_adhaarno %></td>
+	 	 			<td><b class="posh">Pin :</b><%= udyog_pin %><br>
+	 					<b class="posh">Date OF Commencement :</b><%= udyog_DateOFCommencement %><br>
+	 					<b class="posh">Aadhar :</b><%= udyog_aadhar %><br>
+	 					<b class="posh">District :</b><%= udyog_district %><br>
+	 					<b class="posh">District Industry Centre :</b><%= udyog_DistrictIndustryCentre %><br>
+	 					<b class="posh">Name of EnterPrise :</b><%= udyog_NameofEnterPrise %><br>
+	 					<b class="posh">Number of Emp :</b><%= udyog_NumberofEmp %><br>
+	 					<b class="posh">state :</b><%= udyog_state %><br>
+	 					<b class="posh">Owner Name :</b><%= udyog_OwnerName %><br>
+						<b class="posh">Major Activity :</b><%= udyog_MajorActivity %><br>
+						<b class="posh">email :</b><%= udyog_email %><br>
+						<b class="posh">pan :</b><%= udyog_pan %><br>
+						<b class="posh">ifsc :</b><%= udyog_ifsc %><br>
+						<b class="posh">mobile :</b><%= udyog_mobile %><br>
+						<b class="posh">Address :</b><%= udyog_address %><br>
+						<b class="posh">Social Category :</b><%= udyog_social_category %><br>
+						<b class="posh">Account Number :</b><%= udyog_AccountNumber %><br>
+						<b class="posh">Ent Type :</b><%= udyog_EntType %><br>
+						<b class="posh">Type of org :</b><%= udyog_type_of_org %><br>
+						<b class="posh">Investment :</b><%= udyog_Investment %><br>
+						<b class="posh">NIC Digit Code :</b><%= udyog_NIC_Digit_Code %><br></td>
+	 	 		</tr>
+				<% } else if( foundCart.items[i].title  === "GST IDENTIFICATION") { %>
+					<tr>
+	 	 			<td><b class="posh">Product :</b><%= foundCart.items[i].title %></td>
+	 	 			<td><b class="posh">Uan No :</b><%= gsti %>
+					<b class="posh">State :</b><%= gsti_state %></td>
+	 	 			<td><b class="posh">Email Id :</b><%= gst_emailId %><br>
+	 					<b class="posh">Application Status :</b><%= applicationStatus %><br>
+	 					<b class="posh">Mob Num :</b><%= mobNum %><br>
+	 					<b class="posh">pan :</b><%= gst_pan %><br>
+	 					<b class="posh">Gst in RefId :</b><%= gstinRefId %><br>
+	 					<b class="posh">Reg Type :</b><%= regType %><br>
+	 					<b class="posh">Gstin Id :</b><%= gstinId %><br>
+	 					<b class="posh">Registration Name :</b><%= registrationName %><br>
+	 					<b class="posh">Tin Number :</b><%= tinNumber %><br></td>
+	 	 		</tr>
+				<% } else if( foundCart.items[i].title  === "GST AUTHENTICATION") { %>
+					<tr>
+	 	 			<td><b class="posh"><%= foundCart.items[i].title %></b></td>
+	 	 			<td><b class="posh">GSTIN No :</b><%=gst_gsti %></td>
+	 	 			<td><%for (var y=0; y<  gst_mbr.length;y++){ %>
+					<b class="posh">MBR :</b><%= gst_mbr[y] %><br>
+					<% } %>
+	 					<b class="posh">CmpRt :</b><%=  gst_cmprt %><br>
+	 					<b class="posh">EM :</b><%= gst_pradr_em %><br>
+	 					<b class="posh">NTR :</b><%= gst_pradr_ntr %><br>
+	 					<b class="posh">ADR :</b><%= gst_pradr_adr %><br>
+	 					<b class="posh">MB :</b><%= gst_pradr_mb %><br>
+	 					<b class="posh">Contacted :</b><%= gst_contacted %><br>
+	 					<b class="posh">STJ :</b><%= gst_stj %><br>
+						<b class="posh">PPR :</b><%= gst_ppr %><br>
+						<b class="posh">DTY :</b><%=  gst_dty %><br>
+						<b class="posh">RGDT :</b><%= gst_rgdt %><br>
+						<b class="posh">CTB :</b><%=gst_ctb %><br>
+						<b class="posh">STS :</b><%=  gst_sts %><br>
+						<b class="posh">GSTIN :</b><%= gst_gstin %><br>
+						<%for (var y=0; y< gst_adadr.length;y++){ %>
+						<b class="posh">ADADR EM :</b><%= gst_adadr[y].em %><br>
+						<b class="posh">ADADR ADR :</b><%= gst_adadr[y].adr %><br>
+						<b class="posh">ADADR ADDR :</b><%= gst_adadr[y].addr %><br>
+						<b class="posh">ADADR MB :</b><%= gst_adadr[y].mb %><br>
+						<b class="posh">ADADR NTR :</b><%= gst_adadr[y].ntr %><br>
+						<b class="posh">ADADR Last Updated Date :</b><%= gst_adadr[y].lastUpdatedDate %><br>
+						<% } %>
+						<b class="posh">LGNM :</b><%=  gst_lgnm %><br>
+						<%for (var y=0; y< gst_nba.length;y++){ %>
+						<b class="posh">NBA :</b><%= gst_nba[y] %><br>
+						<% } %>
+						<b class="posh">CTJ :</b><%= gst_ctj %><br>
+						<b class="posh">CXDT :</b><%=  gst_cxdt %><br></td>
+	 	 		</tr>
+				<% } else if( foundCart.items[i].title  === "SHOP AND ESTABLISHMENT") { %>
+					<tr>
+	 	 			<td><%= foundCart.items[i].title %></td>
+	 	 			<td><b class="posh">registration :</b><%= shop_registration %>
+					<b class="posh">areacode :</b><%= shop_areacode %></td>
+	 	 			<td><b class="posh">category :</b><%= shop_category %><br>
+	 					<b class="posh">status :</b><%= shop_status %><br>
+	 					<b class="posh">Owner Name :</b><%= shop_owner_name %><br>
+	 					<b class="posh">Entity Name :</b><%= shop_entity_name %><br>
+	 					<b class="posh">Registration Date :</b><%= shop_registration_date %><br>
+	 					<b class="posh">Valid To :</b><%= shop_valid_to %><br>
+	 					<b class="posh">Contact :</b><%= shop_contact %><br>
+	 					<b class="posh">Commence Date :</b><%= shop_commence_date %><br>
+	 					<b class="posh">Total Workers :</b><%= shop_total_workers %><br>
+						<b class="posh">Fathers Name of Occupier :</b><%= shop_fathers_name_of_occupier %><br>
+						<b class="posh">Nature of Business :</b><%= shop_nature_of_business %><br>
+						<b class="posh">Address  :</b><%= shop_address %><br>
+						<b class="posh">Valid From :</b><%= shop_valid_from %><br>
+						<b class="posh">Email :</b><%= shop_email %><br>
+						<b class="posh">Website Url :</b><%= shop_website_url %><br></td>
+	 	 		</tr>
+				<% } else if( foundCart.items[i].title  === "FSSAI LICENSE") { %>
+					<tr>
+	 	 			<td><%= foundCart.items[i].title %></td>
+	 	 			<td><b class="posh">registration :</b><%= fssai_reg %></td>
+	 	 			<td><b class="posh">Status :</b><%=  fssai_status %><br>
+	 					<b class="posh">LicType :</b><%= fssai_lictype %><br>
+	 					<b class="posh">LicNO :</b><%= fssai_licno %><br>
+	 					<b class="posh">Firm Name :</b><%= fssai_firmname %><br>
+	 					<b class="posh">Address :</b><%=  fssai_address %><br>
+						</td>
+	 	 		</tr>
+				<% } else if( foundCart.items[i].title  === "MCI MEMBERSHIP") { %>
+					<tr>
+	 	 			<td><%= foundCart.items[i].title %></td>
+	 	 			<td><b class="posh">registration :</b><%= mci_mcinum %>
+					<b class="posh">Year of Reg :</b><%= mci_year_of_reg %>
+				<b class="posh">Medical Council :</b><%= mci_mcimedical %></td>
+	 	 			<td><b class="posh">Email Id :</b><%= mci_emailId %><br>
+	 					<b class="posh">Eligble To Vote :</b><%= mci_eligbleToVote %><br>
+	 					<b class="posh">Doctor Education Id :</b><%=mci_doctorEducationId %><br>
+	 					<b class="posh">Doct Registration No :</b><%=mci_doctRegistrationNo %><br>
+	 					<b class="posh">Photo :</b><%=mci_photo %><br>
+						<b class="posh">Parent Name :</b><%= mci_parentName %><br>
+						<b class="posh">University Id_view :</b><%= mci_universityId_view %><br>
+						<b class="posh">Reg Date :</b><%= mci_regDate %><br>
+						<b class="posh">Birth Date :</b><%= mci_birthDate %><br>
+						<b class="posh">Restored Status :</b><%= mci_restoredStatus %><br>
+						<b class="posh">University Id :</b><%=mci_universityId%><br>
+						<b class="posh">college :</b><%= mci_college %><br>
+						<b class="posh">year Of Passing :</b><%= mci_yearOfPassing %><br>
+						<b class="posh">address Line1 :</b><%=mci_addressLine1 %><br>
+						<b class="posh">salutation :</b><%= mci_salutation %><br>
+						<b class="posh">economic Status :</b><%= mci_economicStatus %><br>
+						<b class="posh">month Of Pass :</b><%= mci_monthOfPass %><br>
+						<b class="posh">other Subject :</b><%= mci_otherSubject %><br>
+						<b class="posh">city :</b><%=mci_city %><br>
+						<b class="posh">restored On :</b><%=mci_restoredOn %><br>
+						<b class="posh">uprn No :</b><%= mci_uprnNo %><br>
+						<b class="posh">middle Name :</b><%= mci_middleName %><br>
+						<b class="posh">registration No Previous :</b><%= mci_registrationNoPrevious %><br>
+						<b class="posh">trasanction Status :</b><%= mci_trasanctionStatus %><br>
+						<b class="posh">month and year Of Pass :</b><%= mci_monthandyearOfPass %><br>
+						<b class="posh">state :</b><%= mci_state %><br>
+						<b class="posh">year Info :</b><%= mci_yearInfo %><br>
+						<b class="posh">role :</b><%= mci_role %><br>
+						<b class="posh">removed On :</b><%= mci_removedOn %><br>
+						<b class="posh">catagory :</b><%= mci_catagory %><br>
+						<b class="posh">addressLine2 :</b><%= mci_addressLine2 %><br>
+						<b class="posh">registrationNo :</b><%= mci_registrationNo %><br>
+						<b class="posh">officeAddress :</b><%= mci_officeAddress %><br>
+						<b class="posh">smc Name Previous :</b><%= mci_smcNamePrevious %><br>
+						<b class="posh">registration Date :</b><%= mci_registrationDate %><br>
+						<b class="posh">addlqualuniv3 :</b><%= mci_addlqualuniv3 %><br>
+						<b class="posh">addlqualuniv2 :</b><%= mci_addlqualuniv2 %><br>
+						<b class="posh">addlqualuniv1 :</b><%= mci_addlqualuniv1 %><br>
+						<b class="posh">passoutCollege :</b><%= mci_passoutCollege %><br>
+						<b class="posh">birth Date Str :</b><%= mci_birthDateStr %><br>
+						<b class="posh">birth Place :</b><%= mci_birthPlace %><br>
+						<b class="posh">addlqual year3 :</b><%= mci_addlqualyear3 %><br>
+						<b class="posh">addlqual year1 :</b><%= mci_addlqualyear1 %><br>
+						<b class="posh">smcIds :</b><%= mci_smcIds %><br>
+						<b class="posh">doctorId :</b><%= mci_doctorId %><br>
+						<b class="posh">state Medical Council :</b><%= mci_stateMedicalCouncil %><br>
+						<b class="posh">Registration Date :</b><%= mci_removedStatus %><br>
+						<b class="posh">removed Status :</b><%= mci_remarks %><br>
+						<b class="posh">nationality :</b><%= mci_nationality %><br>
+						<b class="posh">check Existing User :</b><%= mci_checkExistingUser %><br>
+						<b class="posh">pincode :</b><%= mci_pincode %><br>
+						<b class="posh">officeaddress :</b><%= mci_officeaddress %><br>
+						<b class="posh">uprnNoPrevious :</b><%= mci_uprnNoPrevious %><br>
+						<b class="posh">phoneNo :</b><%= mci_phoneNo %><br>
+						<b class="posh">gender :</b><%= mci_gender %><br>
+						<b class="posh">firstName :</b><%= mci_firstName %><br>
+						<b class="posh">stateId :</b><%= mci_stateId %><br>
+						<b class="posh">isNewDoctor :</b><%= mci_isNewDoctor %><br>
+						<b class="posh">doctorDegree :</b><%= mci_doctorDegree %><br>
+						<b class="posh">university :</b><%= mci_university %><br>
+						<b class="posh">addlqualyear2 :</b><%= mci_addlqualyear2 %><br>
+						<b class="posh">smcName :</b><%= mci_smcName %><br>
+						<b class="posh">smcId :</b><%= mci_smcId %><br>
+						<b class="posh">adharNo :</b><%= mci_adharNo %><br>
+						<b class="posh">addlqual3 :</b><%= mci_addlqual3 %><br>
+						<b class="posh">addlqual2 :</b><%= mci_addlqual2 %><br>
+						<b class="posh">addlqual1 :</b><%= mci_addlqual1 %><br>
+						<b class="posh">lastName :</b><%= mci_lastName %><br>
+						<b class="posh">catagory_view :</b><%= mci_catagory_view %><br>
+						<b class="posh">bloodGroup :</b><%= mci_bloodGroup %><br>
+						<b class="posh">country :</b><%= mci_country %><br>
+						<b class="posh">collegeId :</b><%= mci_collegeId %><br>
+						<b class="posh">address :</b><%= mci_address %><br>
+						<b class="posh">regnNo :</b><%= mci_regnNo %><br>
+						</td>
+	 	 		</tr>
+				<% } else if( foundCart.items[i].title  === "FDA LICENSE") { %>
+					<tr>
+	 	 			<td><%= foundCart.items[i].title %></td>
+	 	 			<td><b class="posh">fda :</b><%= fda_esic_id %>
+					<b class="posh">fda state :</b><%= fda_state %></td>
+	 	 			<td><b class="posh">store name :</b><%= fda_store_name %><br>
+	 					<b class="posh">contact number :</b><%= fda_contact_number %><br>
+	 					<b class="posh">license_detail :</b><%= fda_address %><br>
+	 					<b class="posh">name :</b><%= fda_name %><br>
+	 					<b class="posh">address :</b><%= fda_license_detail %><br>
+						</td>
+	 	 		</tr>
+				<% } else if( foundCart.items[i].title  === "CA MEMBERSHIP") { %>
+					<tr>
+	 	 			<td><%= foundCart.items[i].title %></td>
+	 	 			<td><b class="posh">membership no :</b><%= canum %></td>
+	 	 			<td><b class="posh">AssociateYear :</b><%= AssociateYear %><br>
+	 					<b class="posh">COPStatus :</b><%= COPStatus %><br>
+	 					<b class="posh">name :</b><%= name %><br>
+	 					<b class="posh">gender :</b><%= gender %><br>
+	 					<b class="posh">FellowYear :</b><%= FellowYear %><br>
+						<b class="posh">Qualification :</b><%= Qualification %><br>
+						<b class="posh">address :</b><%= address %><br>
+						</td>
+	 	 		</tr>
+				<% } else if( foundCart.items[i].title  === "ICSI MEMBERSHIP") { %>
+					<tr>
+	 	 			<td><%= foundCart.items[i].title %></td>
+	 	 			<td><b class="posh">membership_no :</b><%= icsino %>
+					<b class="posh">cp_no :</b><%= cpnumber %></td>
+	 	 			<td><%for (var x=0; x< icsi.length;y++){ %>
+						<b class="posh">City :</b><%= icsi[y].City %><br>
+	 					<b class="posh">Designation :</b><%= icsi[y].Designation %><br>
+	 					<b class="posh">BenevolentMember :</b><%= icsi[y].BenevolentMember %><br>
+	 					<b class="posh">Phone :</b><%= icsi[y].Phone %><br>
+	 					<b class="posh">Membership Number :</b><%= icsi[y].MembershipNumber %><br>
+						<b class="posh">Mob :</b><%= icsi[y].Mob %><br>
+						<b class="posh">CP_Number :</b><%= icsi[y].CP_Number %><br>
+						<b class="posh">address :</b><%= icsi[y].address %><br>
+						<b class="posh">Organization :</b><%= icsi[y].Organization %><br>
+						<b class="posh">Email :</b><%= icsi[y].Email %><br>
+						<% } %>
+						</td>
+	 	 		</tr>
+				<% } else if( foundCart.items[i].title  === "ICWAI MEMBERSHIP") { %>
+					<tr>
+	 	 			<td><%= foundCart.items[i].title %></td>
+	 	 			<td><b class="posh">membership_no :</b><%= icwaino %></td>
+	 	 			<td><b class="posh">MemshipDt :</b><%= icwai_mem_MemshipDt %><br>
+	 					<b class="posh">Chapter :</b><%= icwai_mem_Chapter %><br>
+	 					<b class="posh">Retired :</b><%= icwai_mem_Retired %><br>
+	 					<b class="posh">dob :</b><%= icwai_mem_dob %><br>
+	 					<b class="posh">Mname :</b><%= icwai_mem_Mname %><br>
+						<b class="posh">ProtFirmName :</b><%= icwai_mem_ProtFirmName %><br>
+						<b class="posh">ValidUpDt :</b><%= icwai_mem_ValidUpDt %><br>
+						<b class="posh">MemCategory :</b><%= icwai_mem_MemCategory %><br>
+						<b class="posh">Fname :</b><%= icwai_mem_Fname %><br>
+						<b class="posh">gender :</b><%= icwai_mem_gender %><br>
+						<b class="posh">SrName :</b><%= icwai_mem_SrName %><br>
+						<b class="posh">EffectiveDt :</b><%= icwai_mem_EffectiveDt %><br>
+						<b class="posh">MemRegion :</b><%= icwai_mem_MemRegion %><br>
+						<b class="posh">CrtEmployer :</b><%= icwai_mem_CrtEmployer %><br>
+						<b class="posh">FirmEftDt :</b><%= icwai_mem_FirmEftDt %><br>
+						<b class="posh">CancellationDt :</b><%= icwai_mem_CancellationDt %><br>
+						</td>
+	 	 		</tr>
+				<% } else if( foundCart.items[i].title  === "EPF LAN AUTHENTICATION") { %>
+					<tr>
+	 	 			<td><%= foundCart.items[i].title %></td>
+	 	 			<td><b class="posh">uan :</b><%= epfauths.input_uan %>
+					<b class="posh">mobile_no :</b><%= epfauths.input_mobile_no %></td>
+	 	 			<td><%for (var y=0; y< epfauths.est_details.length;y++){ %>
+						<b class="posh">est_name :</b><%= epfauths.est_details[y].est_name %><br>
+						<b class="posh">doe_epf :</b><%= epfauths.est_details[y].doe_epf %><br>
+						<b class="posh">office :</b><%= epfauths.est_details[y].office %><br>
+						<b class="posh">doj_epf :</b><%= epfauths.est_details[y].doj_epf %><br>
+						<b class="posh">doe_eps :</b><%= epfauths.est_details[y].doe_eps %><br>
+						<b class="posh">member_id :</b><%= epfauths.est_details[y].member_id %><br>
+						<%for (var x=0; x< epfauths.est_details[y].passbook.length;y++){ %>
+							<b class="posh">cr_pen_bal :</b><%= epfauths.est_details[y].passbook[x].cr_pen_bal %><br>
+							<b class="posh">approved_on :</b><%= epfauths.est_details[y].passbook[x].approved_on %><br>
+							<b class="posh">db_cr_flag :</b><%= epfauths.est_details[y].passbook[x].db_cr_flag %><br>
+							<b class="posh">tr_approved :</b><%= epfauths.est_details[y].passbook[x].tr_approved %><br>
+							<b class="posh">tr_date_my :</b><%= epfauths.est_details[y].passbook[x].tr_date_my %><br>
+							<b class="posh">r_order :</b><%= epfauths.est_details[y].passbook[x].r_order %><br>
+							<b class="posh">cr_ee_share :</b><%= epfauths.est_details[y].passbook[x].cr_ee_share %><br>
+							<b class="posh">cr_er_share :</b><%= epfauths.est_details[y].passbook[x].cr_er_share %><br>
+							<b class="posh">particular :</b><%= epfauths.est_details[y].passbook[x].particular %><br>
+							<b class="posh">trrno :</b><%= epfauths.est_details[y].passbook[x].trrno %><br>
+							<b class="posh">table_name :</b><%= epfauths.est_details[y].passbook[x].table_name %><br>
+							<b class="posh">month_year :</b><%= epfauths.est_details[y].passbook[x].month_year %><br>
+						<% } %><br>
+					<% } %><br>
+						<b class="posh">dob :</b><%= epfauths.employee_details.dob %><br>
+						<b class="posh">father_name :</b><%= epfauths.employee_details.father_name %><br>
+						<b class="posh">member_name :</b><%= epfauths.employee_details.member_name %><br>
+						</td>
+	 	 		</tr>
+				<% } else if( foundCart.items[i].title  === "VEHICLE RC SEARCH") { %>
+			 <tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">Engine Number: </b><%= rc_rgnNo %><br>
+					<b class="posh">Chassis Number: </b><%= chassis %><br>
+					<b class="posh">State: </b><%= rc_state %>
+				</td>
+	 			<td><b class="posh">Registration Number: </b><%= rc_regn_no %><br>
+	 				<b class="posh">Owner Name: </b><%= rc_owner_name %><br>
+	 				<b class="posh">Engine Number: </b><%= rc_eng_no %><br>
+	 				<b class="posh">Chasis Number: </b><%= rc_chasi_no %><br>
+	 				<b class="posh">Maker Description: </b><%= rc_maker_desc %><br>
+	 				<b class="posh">Maker Model: </b><%= rc_maker_model %><br>
+	 				<b class="posh">Registration Date: </b><%= rc_regn_dt %><br>
+	 				<b class="posh">Vehicle Class Desc.: </b><%= rc_vh_class_desc %><br>
+	 				<b class="posh">Vehicle Color: </b><%= rc_color %><br>
+	 				<b class="posh">Manufacturing Month Yr.: </b><%= rc_manu_month_yr %><br>
+				</td>
+	 		</tr>
+	 		<% } else if( foundCart.items[i].title  === "ELECTRICITY BILL AUTHENTICATION") { %>
+			 <tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">Consumer Id: </b><%= electricity_consumer_id %><br>
+					<b class="posh">Service Provider: </b><%= electricity_service_provider %><br>
+				</td>
+	 			<td><b class="posh">Consumer Name: </b><%= electricity_consumer_name %><br>
+					<b class="posh">Consumer Number: </b><%= electricity_consumer_num %><br>
+	 				<b class="posh">Address: </b><%= electricity_address %><br>
+	 				<b class="posh">Bill Number: </b><%= electricity_bill_no %><br>
+	 				<b class="posh">Bill Amount: </b><%= electricity_bill_amount %><br>
+	 				<b class="posh">Amount Payable: </b><%= electricity_amount_payable %><br>
+	 				<b class="posh">Total Amount: </b><%= electricity_total_amount %><br>
+	 				<b class="posh">Bill Issue Date: </b><%= electricity_bill_issue_date %><br>
+	 				<b class="posh">Bill Due Date: </b><%= electricity_bill_due_date %><br>
+					<b class="posh">Bill Date: </b><%= electricity_bill_date %><br>
+	 				<b class="posh">Mobile Number: </b><%= electricity_mobile_number %><br>
+	 				<b class="posh">Email Address: </b><%= electricity_email_address %><br>
+
+				</td>
+	 		</tr>
+	 		<% } else if( foundCart.items[i].title  === "LPG ID AUTHENTICATION") { %>
+			 <tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">Lpg Id: </b><%= lpgids.input_lpg_id %></td>
+	 			<td><b class="posh">Consumer Name: </b><%= lpgids.Consumername %><br>
+	 				<b class="posh">Consumer Address: </b><%= lpgids.ConsumerAddress %><br>
+	 				<b class="posh">Consumer Contact: </b><%= lpgids.ConsumerContact %><br>
+	 				<b class="posh">Consumer Email: </b><%= lpgids.ConsumerEmail %><br>
+	 				<b class="posh">Aadhaar No: </b><%= lpgids.AadhaarNo %><br>
+	 				<b class="posh">status: </b><%= lpgids.status %><br>
+	 				<b class="posh">Distributor Code: </b><%= lpgids.DistributorCode %><br>
+	 				<b class="posh">Distributor Name: </b><%= lpgids.DistributorName %><br>
+	 				<b class="posh">Distributor Address: </b><%= lpgids.DistributorAddress %><br>
+	 				<b class="posh">Consumer No: </b><%= lpgids.ConsumerNo %><br>
+	 				<b class="posh">BankAccount No: </b><%= lpgids.BankAccountNo %><br>
+	 				<b class="posh">Bank Name: </b><%= lpgids.BankName %><br>
+	 				<b class="posh">IFSC Code: </b><%= lpgids.IFSCCode %><br>
+	 				<b class="posh">city: </b><%= lpgids.city %><br>
+	 				<b class="posh">pin: </b><%= lpgids.pin %><br>
+	 				<b class="posh">GivenUp Subsidy: </b><%= lpgids.GivenUpSubsidy %><br>
+	 				<b class="posh">Subsidized Refill Consumed: </b><%= lpgids.SubsidizedRefillConsumed %><br>
+	 				<b class="posh">Approximate Subsidy Availed: </b><%= lpgids.ApproximateSubsidyAvailed %><br>
+	 				<b class="posh">Last Booking Date: </b><%= lpgids.LastBookingDate %><br>
+	 				<b class="posh">Total Refill Consumed: </b><%= lpgids.TotalRefillConsumed %><br>
+				</td>
+	 		</tr>
+			<% } else if( foundCart.items[i].title  === "VEHICLE RC AUTHENTICATION") { %>
+			 <tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">Registration Number: </b><%= rcauth_regNo %><br>
+				</td>
+	 			<td><b class="posh">Engine Number: </b><%= rcauth_eng_no %><br>
+	 				<b class="posh">Vehicle Desc.: </b><%= rcauth_vh_class_desc %><br>
+	 				<b class="posh">Present Address: </b><%= rcauth_present_address %><br>
+	 				<b class="posh">Registered Address: </b><%= rcauth_registered_at %><br>
+	 				<b class="posh">Registration Date: </b><%= rcauth_regn_dt %><br>
+	 				<b class="posh">Insurance: </b><%= rcauth_insurance_comp %><br>
+	 				<b class="posh">Color: </b><%= rcauth_color %><br>
+	 				<b class="posh">Manufacturing Month: </b><%= rcauth_manu_month_yr %><br>
+	 				<b class="posh">Sleeper Capacity: </b><%= rcauth_sleeper_cap %><br>
+	 				<b class="posh">Maker Description: </b><%= rcauth_maker_desc %><br>
+	 				<b class="posh">Status: </b><%= rcauth_status_as_on %><br>
+	 				<b class="posh">Insurance Upto: </b><%= rcauth_insurance_upto %><br>
+	 				<b class="posh">Cubic Cap.: </b><%= rcauth_cubic_cap %><br>
+	 				<b class="posh">Owner Sr: </b><%= rcauth_owner_sr %><br>
+	 				<b class="posh">Permanant Address: </b><%= rcauth_permanent_address %><br>
+	 				<b class="posh">Financer: </b><%= rcauth_financer %><br>
+	 				<b class="posh">Owner Name: </b><%= rcauth_owner_name %><br>
+	 				<b class="posh">Fianancer name: </b><%= rcauth_f_name %><br>
+	 				<b class="posh">Unload Weight: </b><%= rcauth_unld_wt %><br>
+	 				<b class="posh">Chasis Number: </b><%= rcauth_chasi_no %><br>
+	 				<b class="posh">Maker Model: </b><%= rcauth_maker_model %><br>
+	 				<b class="posh">GVW: </b><%= rcauth_gvw %><br>
+	 				<b class="posh">Tax Upto: </b><%= rcauth_tax_upto %><br>
+	 				<b class="posh">Standing Capacity: </b><%= rcauth_stand_cap %><br>
+	 				<b class="posh">Fit upto: </b><%= rcauth_fit_upto %><br>
+
+	 				<b class="posh">Insurance policy: </b><%= rcauth_insurance_policy_no %><br>
+	 				<b class="posh">Body type Desc.: </b><%= rcauth_body_type_desc %><br>
+	 				<b class="posh">Wheel Base: </b><%= rcauth_wheelbase %><br>
+	 				<b class="posh">Norms Desc.: </b><%= rcauth_norms_desc %><br>
+	 				<b class="posh">Regn Number: </b><%= rcauth_regn_no %><br>
+	 				<b class="posh">Fuel Description: </b><%= rcauth_fuel_desc %><br>
+	 				<b class="posh">Cylinder: </b><%= rcauth_no_cyl %><br>
+	 				<b class="posh">Seat Capacity: </b><%= rcauth_seat_cap %><br>
+
+				</td>
+	 		</tr>
+			<% } else if( foundCart.items[i].title  === "TELEPHONE BILL AUTHENTICATION") { %>
+			 <tr>
+	 			<td><%= foundCart.items[i].title %></td>
+				<td><b class="posh">Number: </b><%= tel_no %><br></td>
+	 			<td><b class="posh">Name: </b><%= tel_name %><br>
+					<b class="posh">Address: </b><%= tel_address %><br>
+					<b class="posh">Telephone Number: </b><%= TelephoneNo %><br>
+					<b class="posh">Category: </b><%= tel_category %><br>
+					<b class="posh">Installation Type: </b><%= tel_Installation_Type %><br>
+				</td>
+	 		</tr>
+
+	 		<% } else if( foundCart.items[i].title  === "EMAIL AUTHENTICATION") { %>
+			 <tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">Email: </b><%= authemial %>
+				</td>
+				<td>
+					<%for (var y=0; y< meta_params.length;y++){ %>
+				<b class="posh">Email :</b><%= meta_params[y].email %><br>
+				<% } %>
+				<b class="posh">Disposable :</b><%= disposable %><br>
+				<b class="posh">webmail :</b><%= webmail %><br>
+				<b class="posh">result :</b><%= result %><br>
+				<b class="posh">Accept :</b><%= accept_all %><br>
+				<b class="posh">SMTP check :</b><%= smtp_check %><br>
+				<b class="posh">Regexp :</b><%= regexp %><br>
+				<b class="posh">Mx Records :</b><%= mx_records %><br>
+				<b class="posh">Email :</b><%= emailyo %><br>
+
+				</td>
+	 		</tr>
+			<% } else if( foundCart.items[i].title  === "NAME SIMILARITY") { %>
+			<tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">Name1: </b><%= namematch_name1 %><br>
+					<b class="posh">Name2: </b><%= namematch_name2 %><br>
+					<b class="posh">Type: </b><%= namematch_type %><br>
+				</td>
+				<td><b class="posh">Result: </b><%= namematch_result %></td>
+	 		</tr>
+	 		<% } else if( foundCart.items[i].title  === "IFSC CODE CHECK") { %>
+			<tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">ifsc: </b><%= ifsc_ifsc1 %><br>
+	 			</td>
+	 			<td>
+					<b class="posh">city: </b><%= ifsc_city %><br>
+					<b class="posh">district: </b><%= ifsc_district %><br>
+					<b class="posh">ifsc: </b><%= ifsc_ifsc %><br>
+					<b class="posh">micr: </b><%= ifsc_micr %><br>
+					<b class="posh">state: </b><%= ifsc_state %><br>
+					<b class="posh">contact: </b><%= ifsc_contact %><br>
+					<b class="posh">branch: </b><%= ifsc_branch %><br>
+					<b class="posh">address: </b><%= ifsc_address %><br>
+					<b class="posh">bank: </b><%= ifsc_bank %><br>
+			</td>
+	 		</tr>
+	 		<% } else if( foundCart.items[i].title  === "HSN CODE CHECK") { %>
+			<tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">ifsc: </b><%= hsn1 %><br>
+	 			</td>
+	 			<td>
+					<b class="posh">policy Link: </b><%= policyLink %><br>
+					<b class="posh">chapter Notes: </b><%= chapterNotes %><br>
+					<b class="posh">heading Desc: </b><%= headingDesc %><br>
+					<b class="posh">section Desc: </b><%= sectionDesc %><br>
+					<b class="posh">item Desc2: </b><%= itemDesc2 %><br>
+					<b class="posh">item Desc1: </b><%= itemDesc1 %><br>
+					<b class="posh">chapter No: </b><%= chapterNo %><br>
+					<b class="posh">policy: </b><%= hsn_policy %><br>
+					<b class="posh">chapter Desc: </b><%= chapterDesc %><br>
+					<b class="posh">policy Conditions: </b><%= policyConditions %><br>
+					<b class="posh">section No: </b><%= sectionNo %><br>
+
+			</td>
+	 		</tr>
+
+	 		<% } else if( foundCart.items[i].title  === "EPF UAN") { %>
+			<tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">Mobile Number: </b><%= uanemp %><br>
+	 			</td>
+	 			<td>
+					<b class="posh">UAN: </b><%= employee %>
+			</td>
+	 		</tr>
+
+			<% } else if( foundCart.items[i].title  === "PNG AUTHENTICATION") { %>
+			<tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">Consumer Id: </b><%= png_consumer_id %><br>
+	 				<b class="posh">BP Number: </b><%= png_bp_no %><br>
+	 				<b class="posh">ServiceProvider: </b><%= png_service_provider %><br>
+	 			</td>
+	 			<td>
+					<b class="posh">Bill No: </b><%= png_Bill_No %><br>
+					<b class="posh">Due Date: </b><%= png_Due_Date %><br>
+					<b class="posh">Bill Amount: </b><%= png_Bill_Amount %><br>
+					<b class="posh">Mobile : </b><%= png_mobile %><br>
+					<b class="posh">Customer Address: </b><%= png_Customer_Address %><br>
+					<b class="posh">Bill Date: </b><%= png_Bill_Date %><br>
+					<b class="posh">Email : </b><%= png_Email %><br>
+					<b class="posh">Customer Name: </b><%= png_Customer_Name %>
+			</td>
+	 		</tr>
+
+
+	 		<% } else if( foundCart.items[i].title  === "FORM 16 AUTHENTICATION") { %>
+			<tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">TAN: </b><%= tan_form16 %><br>
+	 				<b class="posh">PAN: </b><%= pan_form16 %><br>
+	 				<b class="posh">Certificate Number: </b><%= cert_no_form16 %><br>
+	 				<b class="posh">TDS Amount: </b><%= amount_form16 %><br>
+	 				<b class="posh">Fiscal Year: </b><%= fiscal_year_form16 %><br>
+	 			</td>
+	 			<td>
+					<b class="posh">Status: </b><%= status_result %>
+			</td>
+	 		</tr>
+			<% } else if( foundCart.items[i].title  === "ITR AUTHENTICATION") { %>
+			<tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">PAN: </b><%= itr_pan %><br>
+	 				<b class="posh">Acknowledge: </b><%= itr_ack %><br>
+	 			</td>
+	 			<td>
+	 				<b class="posh">validity: </b><%= itr_validity %><br>
+					<b class="posh">Status: </b><%= itr_status %>
+			</td>
+	 		</tr>
+	 		<% } else if( foundCart.items[i].title  === "FORM 16 QUATERLY") { %>
+			<tr>
+	 			<td><%= foundCart.items[i].title %></td>
+	 			<td><b class="posh">TAN: </b><%= tanq_1 %><br>
+	 				<b class="posh">PAN: </b><%= panq_1 %><br>
+	 				<b class="posh">Fiscal Year: </b><%= fqfiscalq_1 %><br>
+	 			</td>
+	 			<td>
+				<b class="posh">Quarter 1 :</b><%= q_1 %><br>
+				<b class="posh">Quarter 2 :</b><%= q_2 %><br>
+				<b class="posh">Quarter 3 :</b><%= q_3 %><br>
+				<b class="posh">Quarter 4 :</b><%= q_4 %><br>
+
+			</td>
+	 		</tr>
+			<% } else if( foundCart.items[i].title  === "BANK ACCOUNT VERIFICATION") { %>
+    <tr>
+			<td><%= foundCart.items[i].title %></td>
+			<td><b class="posh">IFSC: </b><%= ifsc %><br>
+				<b class="posh">Account Number:</b><%= account %>
+			</td>
+			<td><b class="posh">Bank TXN status:</b><%= bankTxnStatus %><br>
+				<b class="posh">Account Number:</b><%= accountNumber %><br>
+				<b class="posh">IFSC:</b><%= IFSCCode %><br>
+				<b class="posh">Account Name:</b><%= accountName %><br>
+				<b class="posh">Bank Response:</b><%= bankResponse %><br>
+			</td>
+		</tr>
+		<% } else if( foundCart.items[i].title  === "ICWAI FIRM") { %>
+		<tr>
+			<td><%= foundCart.items[i].title %></td>
+			<td><b class="posh">ICWAI INPUT: </b><%= icwaiNo %><br>
+			</td>
+			<td>
+				<b class="posh">Approval Date:</b><%= approvalDate %><br>
+				<b class="posh">Firm Type:</b><%= FirmType %><br>
+				<b class="posh">Firm Name:</b><%= FirmName %><br>
+				<b class="posh">Pin:</b><%= icwaifirm_Pin %><br>
+				<b class="posh">City:</b><%= icwaifirm_City %><br>
+				<b class="posh">Region:</b><%= icwaifirm_Region %><br>
+				<b class="posh">Recon Date:</b><%= reConDate %><br>
+				<b class="posh">Address:</b><%= icwaifirm_Address %><br>
+				<%for (var y=0; y< icwaifirm_MemberDetails.length;y++){ %>
+			<b class="posh">City :</b><%= icwaifirm_MemberDetails[y].City %><br>
+			<b class="posh">MemberNo :</b><%= icwaifirm_MemberDetails[y].MemberNo %><br>
+			<b class="posh">Pin :</b><%= icwaifirm_MemberDetails[y].Pin %><br>
+			<b class="posh">MemberName :</b><%= icwaifirm_MemberDetails[y].MemberName %><br>
+			<b class="posh">State :</b><%= icwaifirm_MemberDetails[y].State %><br>
+			<b class="posh">Address :</b><%= icwaifirm_MemberDetails[y].Address %><br>
+			<% } %>
+			<b class="posh">deedDt:</b><%= icwaifirm_deedDt %><br>
+			<b class="posh">State:</b><%= icwaifirm_State %><br>
+			<b class="posh">Contact:</b><%= icwaifirm_Contact %><br>
+			<b class="posh">mobile:</b><%= icwaifirm_mobile %><br>
+			<b class="posh">ldt:</b><%= icwaifirm_ldt %><br>
+			<b class="posh">Dist:</b><%= icwaifirm_Dist %><br>
+			<b class="posh">email:</b><%= icwaifirm_email %><br>
+		</td>
+		</tr>
+		<% } else if( foundCart.items[i].title  === "TAN DETAILED") { %>
+	<tr>
+		<td><%= foundCart.items[i].title %></td>
+		<td><b class="posh">Tan : </b><%= tano %><br>
+		</td>
+		<td>
+			<b class="posh">AO</b><br>
+			<b class="posh">Email:</b>ao_emailId<br>
+			<b class="posh">Type:</b><%= ao_aoType %><br>
+			<b class="posh">Building name:</b><%= ao_buildingName %><br>
+			<b class="posh">Area code:</b><%= ao_areaCode %><br>
+			<b class="posh">Range code:</b><%= ao_rangeCode %><br>
+			<b class="posh">Description:</b><%= ao_aoDescription %><br>
+			<b class="posh">Number:</b><%= ao_aoNumber %><br><br>
+			<b class="posh">Entity</b><br>
+			<b class="posh">Category of deductor:</b><%= entity_categoryOfDeductor %><br>
+			<b class="posh">Name:</b><%= entity_name %><br>
+			<b class="posh">Email:</b><%= entity_emailId1 %><br>
+			<b class="posh">Email 2:</b><%= entity_emailId2 %><br>
+			<b class="posh">Address:</b><%= entity_address %><br>
+			<b class="posh">Status:</b><%= entity_statusOfTan %><br>
+			<b class="posh">Tan:</b><%= entity_tan %><br>
+			<b class="posh">Pan:</b><%= entity_pan %><br>
+		</td>
+	</tr>
+
+	<% } else if( foundCart.items[i].title  === "ESICID AUTHENTICATION") { %>
+<tr>
+	<td><%= foundCart.items[i].title %></td>
+	<td><b class="posh">esicid_id: </b><%= esicid_id %><br>
+	</td>
+	<td><b class="posh">UHID:</b><%= UHID %><br>
+		<b class="posh">Dob:</b><%= dob_esicid %><br>
+		<b class="posh">Adhaar Status:</b><%= AdhaarStatus %><br>
+		<b class="posh">Dispensary Name:</b><%= DispensaryName %><br>
+		<b class="posh">Current Date Of Appointment:</b><%= CurrentDateOfAppointment %><br>
+		<b class="posh">Nominee Address:</b><%= Nominee_Address %><br>
+		<b class="posh">Present Address:</b><%= PresentAddress %><br>
+		<b class="posh">Disability Type:</b><%= DisabilityType %><br>
+		<b class="posh">AdhaarNO :</b><%= AdhaarNO_esicid %><br>
+		<b class="posh">PhoneNO :</b><%= PhoneNO_esicid %><br>
+		<b class="posh">Maritial Status:</b><%= MaritialStatus %><br>
+		<b class="posh">Name:</b><%= Name_esicid %><br>
+		<b class="posh">Gender:</b><%= Gender_esicid %><br>
+		<b class="posh">Nominee AdhaarNO:</b><%= Nominee_AdhaarNO_esicid %><br>
+		<%for (var y=0; y< Contribution_Details.length;y++){ %>
+	<b class="posh">Employee Conrtibution :</b><%= Contribution_Details[y].Employee_Conrtibution %><br>
+	<b class="posh">Wage Period :</b><%= Contribution_Details[y].Wage_Period %><br>
+	<b class="posh">Total Monthly Wages :</b><%= Contribution_Details[y].Total_Monthly_Wages %><br>
+	<b class="posh">Number of Days wages paid :</b><%= Contribution_Details[y].Number_of_Days_wages_paid %><br>
+	<% } %>
+		<b class="posh">Nominee AdhaarNO esicid:</b><%= Nominee_AdhaarNO_esicid %><br>
+		<b class="posh">Father or Husband:</b><%= Father_or_Husband %><br>
+		<b class="posh">Registration Date:</b><%= RegistrationDate%><br>
+		<b class="posh">Permanent Address:</b><%= PermanentAddress %><br>
+		<b class="posh">Nominee Name esicid:</b><%= Nominee_Name_esicid %><br>
+		<b class="posh">InsuranceNO esicid:</b><%= InsuranceNO_esicid %><br>
+		<b class="posh">First Date Of Appointment:</b><%= FirstDateOfAppointment %><br>
+		<b class="posh">Relation with IP:</b><%= Relation_with_IP %><br>
+	</td>
+</tr>
+
+
+	</table>
+	<% } %>
+	<script type="text/javascript">
+var n = new Date();
+y = n.getFullYear();
+m = n.getMonth() + 1;
+d = n.getDate();
+
+
+document.getElementById("ddate").innerHTML = d + "/" + m + "/" + y ;
+</script>
+<% } %>
+
+
+
+<script type="text/javascript">
+    function printpage() {
+        //Get the print button and put it into a variable
+        var printButton = document.getElementById("printpagebutton");
+        //Set the print button visibility to 'hidden'
+        printButton.style.visibility = 'visible';
+        //Print the page content
+        window.print()
+        //Set the print button to 'visible' again
+        //[Delete this line if you want it to stay hidden after printing]
+        printButton.style.visibility = 'visible';
+    }
+</script>
+
+</body>
+
+
+
+
+
+</html>

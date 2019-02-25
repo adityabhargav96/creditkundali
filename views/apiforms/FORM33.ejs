@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Form</title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+<form action="" id="address" method="post">
+	<center><img src="images/ajax-loader.gif" width="100px;" height="100px;" id="loading33" style="display: none;"></center>
+<div class="table-responsive">
+	<h3>ADDRESS MATCHING</h3>
+    <table class="table table-bordered table-striped table-highlight">
+      	<thead>
+        	<th>Enter your ADDRESS 1:</th>
+        	<th>Enter your ADDRESS2:</th>
+        	<!-- <th>Enter Certificate no:</th>
+          <th>Total amount of TDS deducted:</th>
+          <th>Fiscal year:</th> -->
+     	</thead>
+
+     	<tbody>
+        	<tr>
+          		<td><input type="text" class="form-control" name="address1" /></td>
+          		<td><input type="text" class="form-control" name="address2" /></td>
+         		 <!-- <td><input type="text" class="form-control" name="cer" /></td>
+             <td><input type="text" class="form-control" name="tds" /></td>
+             <td><input type="text" class="form-control" name="fiscal" /></td> -->
+        	</tr>
+     	</tbody>
+	</table>
+
+
+
+	</div>
+
+	<center><button type="submit" action="" method="post" class="btn" name="Submit" style="margin-bottom: 20px;">Submit Form</button></center>
+
+</form>
+<div class = "new_33" style= "display:none">Your Details Have been succesfully submitted</div>
+</div>
+
+
+</body>
+<script>
+  $("#address").on('submit',function(e){
+		e.preventDefault();
+		console.log('HI')
+		$('#loading33').show();
+    $.ajax({
+			type: "POST",
+			url:'/index33',
+			data: $('form').serialize(),
+			success: function(data){
+				if(data.message ==='Wrong Input'){
+					alert('Invalid Input ,PLEASE GIVE A CORRECT INPUT');
+				}else if(data.message ==='Something is wrong'){
+					alert('SOMETHING WENT WRONG PLEASE TRY AGAIN LATTER');
+				}else if(data.message ==='Status 103'){
+				 alert('Invalid Input ,PLEASE GIVE A CORRECT INPUT');
+			 }else if(data.message ==='Status 504'){
+				alert('GateWay Timed Out');
+				}else if(data.message ==='Internal Server Error'){
+ 					alert('Internal Server Error');
+ 				}else if(data.message ==='Service Unavailable'){
+ 					alert('Service Unavailable');
+ 				}else{
+				 $("#address").hide();
+          $(".new_33").show();
+			 }
+				},
+		complete: function(){
+        $('#loading33').hide();
+      }
+		});
+  })
+</script>
+</html>

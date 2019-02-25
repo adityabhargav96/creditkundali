@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Form</title>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+<form action="" id="image" method="post">
+	<center><img src="images/ajax-loader.gif" width="100px;" height="100px;" id="loading39" style="display: none;"></center>
+<div class="table-responsive">
+	<h3>1. IMAGE MATCHING</h3>
+    <table class="table table-bordered table-striped table-highlight">
+      	<thead>
+        	<th>Upload IMAGE1:</th>
+        	<!-- <th></th> -->
+        	<th>Upload IMAGE2:</th>
+     	</thead>
+
+     	<tbody>
+        	<tr>
+          		<td><input type="file" class="form-control" name="image1" /></td>
+          		<!-- <td>OR</td> -->
+         		 <td><input type="file" class="form-control" name="image2" /></td>
+             <select class="form-control ng-pristine ng-valid ng-touched" name="type">
+                    <!----><option value="id">ID</option>
+                    <option value="selfie">Selfie</option>
+                  </select>
+        	</tr>
+     	</tbody>
+	</table>
+
+
+
+	</div>
+
+	<center><button type="submit" action="" method="post" class="btn" name="Submit" style="margin-bottom: 20px;">Submit Form</button></center>
+
+</form>
+<div class = "new_39" style= "display:none">Your Details Have been succesfully submitted</div>
+</div>
+
+
+</body>
+<script>
+  $("#image").on('submit',function(e){
+		e.preventDefault();
+		console.log('HI')
+		$('#loading39').show();
+    $.ajax({
+			type: "POST",
+			url:'/index39',
+			data: $('form').serialize(),
+			success: function(data){
+				if(data.message ==='Wrong Input'){
+					alert('Invalid Input ,PLEASE GIVE A CORRECT INPUT');
+				}else if(data.message ==='Something is wrong'){
+					alert('SOMETHING WENT WRONG PLEASE TRY AGAIN LATTER');
+				}else if(data.message ==='Status 103'){
+				 alert('Invalid Input ,PLEASE GIVE A CORRECT INPUT');
+			 }else if(data.message ==='Status 504'){
+				alert('GateWay Timed Out');
+				}else if(data.message ==='Internal Server Error'){
+ 					alert('Internal Server Error');
+ 				}else if(data.message ==='Service Unavailable'){
+ 					alert('Service Unavailable');
+ 				}else{
+				 $("#image").hide();
+          $(".new_39").show();
+			 }
+			},
+		complete: function(){
+        $('#loading39').hide();
+      }
+		});
+  })
+</script>
+</html>
